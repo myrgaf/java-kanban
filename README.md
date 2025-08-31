@@ -7,10 +7,10 @@
 - Автоматически обновляет статус эпика на основе подзадач.
 
 Классы:
-- [x] Task: Абстрактный класс для всех задач
+- [x] ru.yandex.practicum.models.Task: Абстрактный класс для всех задач
 - [x] SimpleTask: Обычная задача
-- [x] Epic: Большая задача (состоит из подзадач)
-- [x] Subtask: Подзадача (связана с большой задаче)
-- [x] Status: Перечисление статусов задач
-- [x] TaskManager: Менеджер задач
-- [x] Main: Демонстрация работы
+- [x] ru.yandex.practicum.models.Epic: Большая задача (состоит из подзадач)
+- [x] ru.yandex.practicum.models.Subtask: Подзадача (связана с большой задаче)
+- [x] ru.yandex.practicum.models.Status: Перечисление статусов задач
+- [x] ru.yandex.practicum.manager.TaskManager: Менеджер задач
+- [x] ru.yandex.practicum.Main: Демонстрация работы

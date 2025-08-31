@@ -1,4 +1,9 @@
-// src/TaskManager.java
+package ru.yandex.practicum.manager;// src/ru.yandex.practicum.manager.TaskManager.java
+import ru.yandex.practicum.models.Epic;
+import ru.yandex.practicum.models.Status;
+import ru.yandex.practicum.models.Subtask;
+import ru.yandex.practicum.models.Task;
+
 import java.util.*;
 
 public class TaskManager {
@@ -18,7 +23,7 @@ public class TaskManager {
         return nextId++;
     }
 
-    // === Task ===
+    // === ru.yandex.practicum.models.Task ===
 
     public List<Task> getAllTasks() {
         List<Task> result = new ArrayList<>();
@@ -67,7 +72,7 @@ public class TaskManager {
         return false;
     }
 
-    // === Epic ===
+    // === ru.yandex.practicum.models.Epic ===
 
     public List<Epic> getAllEpics() {
         return new ArrayList<>(epics.values());
@@ -123,7 +128,7 @@ public class TaskManager {
         return false;
     }
 
-    // === Subtask ===
+    // === ru.yandex.practicum.models.Subtask ===
 
     public List<Subtask> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());

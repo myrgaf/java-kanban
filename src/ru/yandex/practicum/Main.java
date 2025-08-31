@@ -1,4 +1,12 @@
-// src/Main.java
+package ru.yandex.practicum;
+
+import ru.yandex.practicum.models.Epic;
+import ru.yandex.practicum.models.Status;
+import ru.yandex.practicum.models.Subtask;
+import ru.yandex.practicum.models.Task;
+import ru.yandex.practicum.manager.TaskManager;
+
+
 public class Main {
     public static void main(String[] args) {
         TaskManager manager = new TaskManager();

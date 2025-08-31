@@ -1,4 +1,4 @@
-// src/Task.java
+package ru.yandex.practicum.models;// src/ru.yandex.practicum.models.Task.java
 import java.util.Objects;
 
 public class Task {
@@ -60,6 +60,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("Task{id=%d, title='%s', status=%s}", id, title, status);
+        return String.format("ru.yandex.practicum.models.Task{id=%d, title='%s', status=%s}", id, title, status);
     }
 }

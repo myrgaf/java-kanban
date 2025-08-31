@@ -1,4 +1,4 @@
-// src/Epic.java
+package ru.yandex.practicum.models;// src/ru.yandex.practicum.models.Epic.java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return String.format("Epic{id=%d, title='%s', status=%s, subtaskCount=%d}",
+        return String.format("ru.yandex.practicum.models.Epic{id=%d, title='%s', status=%s, subtaskCount=%d}",
                 getId(), getTitle(), getStatus(), subtaskIds.size());
     }
 }

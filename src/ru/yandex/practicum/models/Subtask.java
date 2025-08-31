@@ -1,4 +1,6 @@
-// src/Subtask.java
+package ru.yandex.practicum.models;
+
+// src/ru.yandex.practicum.models.Subtask.java
 public class Subtask extends Task {
     private int epicId;
 
@@ -17,7 +19,7 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return String.format("Subtask{id=%d, title='%s', status=%s, epicId=%d}",
+        return String.format("ru.yandex.practicum.models.Subtask{id=%d, title='%s', status=%s, epicId=%d}",
                 getId(), getTitle(), getStatus(), epicId);
     }
 }
