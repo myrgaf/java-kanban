@@ -19,7 +19,7 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return String.format("ru.yandex.practicum.models.Subtask{id=%d, title='%s', status=%s, epicId=%d}",
-                getId(), getTitle(), getStatus(), epicId);
+        return String.format("Subtask{id=%d, title='%s', status=%s, epicId=%d}",
+                getId(), getTitle(), getStatus(), epicId); // Как-то после рефакторинга сюда попало =\
     }
 }
