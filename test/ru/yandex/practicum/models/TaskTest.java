@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
     @Test
-    void tasksWithSameIdShouldBeEqual() {
+    void equalTasks() {
         Task task1 = new Task("Задача 1","Описание", Status.NEW);
         task1.setId(1);
         Task task2 = new Task("Задача 2", "Описание", Status.NEW);
@@ -17,7 +17,7 @@ class TaskTest {
     }
 
     @Test
-    void subtaskAndEpicWithSameIdShouldNotBeEqual() {
+    void notEqualSubtaskAndSubtask() {
         Epic epic = new Epic("Эпик 1", "Описание", Status.NEW);
         epic.setId(1);
         Subtask subtask = new Subtask("Подзадача 1", "Описание", Status.NEW, 2);
@@ -27,7 +27,7 @@ class TaskTest {
     }
 
     @Test
-    void epicsWithSameIdShouldBeEqual() {
+    void equalEpics() {
         Epic epic1 = new Epic("Эпик 1", "Описание", Status.NEW);
         epic1.setId(1);
         Epic epic2 = new Epic("Эпик 2", "Описание", Status.NEW);
@@ -38,7 +38,7 @@ class TaskTest {
     }
 
     @Test
-    void subtasksWithSameIdShouldBeEqual() {
+    void equalSubtasks() {
         Subtask s1 = new Subtask("Подзадача 1", "Описание", Status.NEW, 1);
         s1.setId(1);
         Subtask s2 = new Subtask("Подзадача 2", "Описание", Status.NEW, 2);

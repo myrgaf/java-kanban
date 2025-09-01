@@ -23,7 +23,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldAddTaskToHistory() {
+    void addToHistory() {
         historyManager.add(task1);
         List<Task> history = historyManager.getHistory();
         assertEquals(1, history.size());
@@ -31,7 +31,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldLimitHistoryToTen() {
+    void checkLimit() {
         for (int i = 0; i < 15; i++) {
             Task t = new Task("Задача № " + i, "Описание", Status.NEW);
             t.setId(i);

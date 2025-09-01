@@ -20,7 +20,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldNotAllowSubtaskToBeItsOwnEpic() {
+    void checkEpicId() {
         Subtask subtask = new Subtask("Эпик 1", "Описание", Status.NEW, 1);
         subtask.setId(1); // id == epicId
 
@@ -29,7 +29,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldAddAndFindTaskById() {
+    void addAndFindTaskById() {
         Task task = new Task("Задача 1", "Описание", Status.NEW);
         Task saved = manager.createTask(task);
         Task found = manager.getTask(saved.getId());
@@ -38,7 +38,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldUpdateEpicStatusBasedOnSubtasks() {
+    void updateEpicStatus() {
         Epic epic = manager.createEpic(new Epic("Эпик 1", "Описание", Status.NEW));
         Subtask s1 = manager.createSubtask(new Subtask("Подзадача 1",
                 "Описание", Status.NEW, epic.getId()));
@@ -58,7 +58,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldAddToHistoryOnGet() {
+    void duplicateInHistory() {
         Task task = manager.createTask(new Task("Задача 1", "Описание", Status.NEW));
         manager.getTask(task.getId());
         manager.getTask(task.getId()); // дубль
@@ -69,7 +69,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldNotAllowEpicToBeItsOwnSubtask() {
+    void dublicateSubtask() {
         Epic epic = new Epic("Задача 1", "Описание", Status.NEW);
         epic = manager.createEpic(epic);
 
@@ -81,7 +81,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldNotModifyOriginalTaskOnCreation() {
+    void creatingTask() {
         Task original = new Task("Задача 1", "Описание", Status.NEW);
         original.setId(100);
         manager.createTask(original);
@@ -92,7 +92,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void historyShouldPreserveTaskStateAtTimeOfView() {
+    void saveTaskState() {
         Task task = new Task("Схожий текст", "Описание", Status.NEW);
         task.setId(1);
         manager.createTask(task);
