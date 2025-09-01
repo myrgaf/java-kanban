@@ -20,6 +20,6 @@ public class Subtask extends Task {
     @Override
     public String toString() {
         return String.format("Subtask{id=%d, title='%s', status=%s, epicId=%d}",
-                getId(), getTitle(), getStatus(), epicId); // Как-то после рефакторинга сюда попало =\
+                getId(), getTitle(), getStatus(), epicId);
     }
 }

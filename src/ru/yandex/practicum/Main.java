@@ -1,15 +1,38 @@
 package ru.yandex.practicum;
 
-import ru.yandex.practicum.models.Epic;
-import ru.yandex.practicum.models.Status;
-import ru.yandex.practicum.models.Subtask;
-import ru.yandex.practicum.models.Task;
+import ru.yandex.practicum.manager.Managers;
 import ru.yandex.practicum.manager.TaskManager;
+import ru.yandex.practicum.models.*;
 
 
 public class Main {
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getAllTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Epic epic : manager.getAllEpics()) {
+            System.out.println(epic);
+
+            for (Task task : manager.getEpicSubtasks(epic.getId())) {
+                System.out.println(" - " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getAllSubtasks()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
+        System.out.println(" — ".repeat(40));
+    }
+
     public static void main(String[] args) {
-        TaskManager manager = new TaskManager();
+        TaskManager manager = Managers.getDefault();
 
         // Обычные задачи
         Task task1 = manager.createTask(new Task("Покупка", "Купить молоко", Status.NEW));
@@ -23,31 +46,15 @@ public class Main {
         Epic epic2 = manager.createEpic(new Epic("Ремонт", "Покраска стен", Status.NEW));
         Subtask sub3 = manager.createSubtask(new Subtask("Покрасить", "Гостиную", Status.DONE, epic2.getId()));
 
-        System.out.println("=== Все обычные задачи ===");
-        manager.getAllTasks().forEach(System.out::println);
+        printAllTasks(manager);
 
-        System.out.println("\n=== Все эпики ===");
-        manager.getAllEpics().forEach(System.out::println);
+        // Проверка истории
+        manager.getTask(task1.getId());
+        manager.getEpic(epic1.getId());
+        manager.getSubtask(sub2.getId());
+        manager.getTask(task1.getId()); // дубль
+        manager.getEpic(epic2.getId());
 
-        System.out.println("\n=== Подзадачи эпика 1 ===");
-        manager.getSubtasksByEpicId(epic1.getId()).forEach(System.out::println);
-
-        // Меняем статусы
-        sub1.setStatus(Status.DONE);
-        manager.updateSubtask(sub1);
-        System.out.println("\nПосле завершения sub1: " + manager.getEpicById(epic1.getId()));
-
-        sub2.setStatus(Status.DONE);
-        manager.updateSubtask(sub2);
-        System.out.println("После всех подзадач: " + manager.getEpicById(epic1.getId()));
-
-        // Удаляем
-        manager.deleteTaskById(task2.getId());
-        manager.deleteEpicById(epic2.getId());
-
-        System.out.println("\n=== После удалений ===");
-        System.out.println("Обычных задач: " + manager.getAllTasks().size());
-        System.out.println("Эпиков: " + manager.getAllEpics().size());
-        System.out.println("Подзадач: " + manager.getAllSubtasks().size());
+        printAllTasks(manager);
     }
 }
