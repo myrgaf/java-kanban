@@ -32,7 +32,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
             Files.writeString(file.toPath(), sb.toString());
         } catch (IOException e) {
-            throw new ManagerSaveException("Не удалось сохранить данные в файл: " + file.getAbsolutePath());
+            throw new ManagerSaveException(String.format("Не удалось сохранить данные в файл: %s", file.getAbsolutePath()));
         }
     }
 
@@ -115,7 +115,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
 
         } catch (IOException e) {
-            throw new ManagerSaveException("Не удалось загрузить данные из файла: " + file.getAbsolutePath());
+            throw new ManagerSaveException(String.format("Не удалось сохранить данные в файл: %s", file.getAbsolutePath()));
         }
 
         return manager;
@@ -144,7 +144,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 subtask.setId(id);
                 return subtask;
             default:
-                throw new IllegalArgumentException("Неизвестный тип задачи: " + type);
+                throw new IllegalArgumentException(String.format("Неизвестный тип задачи: %s", type));
         }
     }
 
