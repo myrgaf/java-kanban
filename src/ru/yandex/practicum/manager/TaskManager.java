@@ -6,21 +6,30 @@ import ru.yandex.practicum.models.*;
 public interface TaskManager {
     // Task
     List<Task> getAllTasks();
+
     void deleteAllTasks();
 
     Task getTask(int id);
+
     Task createTask(Task task);
+
     Task updateTask(Task task);
+
     boolean deleteTask(int id);
 
     // Epic
     List<Epic> getAllEpics();
+
     void deleteAllEpics();
+
     List<Subtask> getEpicSubtasks(int epicId);
 
     Epic getEpic(int id);
+
     Epic createEpic(Epic epic);
+
     Epic updateEpic(Epic epic);
+
     boolean deleteEpic(int id);
 
     // Subtask
