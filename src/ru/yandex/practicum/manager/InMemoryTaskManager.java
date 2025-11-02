@@ -3,7 +3,7 @@ package ru.yandex.practicum.manager;// src/ru.yandex.practicum.manager.TaskManag
 import ru.yandex.practicum.models.*;
 import java.util.*;
 
-public class InMemoryTaskManager implements TaskManager{
+public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Task> tasks;
     protected final Map<Integer, Epic> epics;
     protected final Map<Integer, Subtask> subtasks;
