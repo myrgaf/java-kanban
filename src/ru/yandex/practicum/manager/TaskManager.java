@@ -34,11 +34,15 @@ public interface TaskManager {
 
     // Subtask
     List<Subtask> getAllSubtasks();
+
     void deleteAllSubtasks();
 
     Subtask getSubtask(int id);
+
     Subtask createSubtask(Subtask subtask);
+
     Subtask updateSubtask(Subtask subtask);
+
     boolean deleteSubtask(int id);
 
     // History
