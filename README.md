@@ -13,5 +13,5 @@
 - [x] ru.yandex.practicum.models.Subtask: Подзадача (связана с большой задачей)
 - [x] ru.yandex.practicum.models.Status: Перечисление статусов задач
 - [x] ru.yandex.practicum.manager.TaskManager: Менеджер задач
-- [x] ru.yandex.practicum.manager.FileBackendTaskManager: Менеджер задач для сохаранения/ восстановление из .csv формата
+- [x] ru.yandex.practicum.manager.FileBackedTaskManager: Менеджер задач для сохаранения/ восстановление из .csv формата
 - [x] ru.yandex.practicum.Main: Демонстрация работы
