@@ -3,11 +3,11 @@ package ru.yandex.practicum.manager;// src/ru.yandex.practicum.manager.TaskManag
 import ru.yandex.practicum.models.*;
 import java.util.*;
 
-public class InMemoryTaskManager implements TaskManager{
-    private final Map<Integer, Task> tasks;
-    private final Map<Integer, Epic> epics;
-    private final Map<Integer, Subtask> subtasks;
-    private int nextId;
+public class InMemoryTaskManager implements TaskManager {
+    protected final Map<Integer, Task> tasks;
+    protected final Map<Integer, Epic> epics;
+    protected final Map<Integer, Subtask> subtasks;
+    protected int nextId;
     private final HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -281,7 +281,7 @@ public class InMemoryTaskManager implements TaskManager{
         return result;
     }
 
-    private void updateEpicStatus(Epic epic) {
+     void updateEpicStatus(Epic epic) {
         List<Subtask> subtasks = getEpicSubtasks(epic.getId());
 
         if (subtasks.isEmpty()) {
