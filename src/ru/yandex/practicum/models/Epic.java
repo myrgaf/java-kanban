@@ -1,4 +1,4 @@
-package ru.yandex.practicum.models;// src/ru.yandex.practicum.models.Epic.java
+package ru.yandex.practicum.models;
 import java.util.ArrayList;
 import java.util.List;
 

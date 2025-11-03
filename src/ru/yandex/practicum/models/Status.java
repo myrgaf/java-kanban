@@ -1,4 +1,4 @@
-package ru.yandex.practicum.models; // src/ru.yandex.practicum.models.Status.java
+package ru.yandex.practicum.models;
 
 
 public enum Status {

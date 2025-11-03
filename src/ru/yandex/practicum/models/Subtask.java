@@ -1,6 +1,6 @@
 package ru.yandex.practicum.models;
 
-// src/ru.yandex.practicum.models.Subtask.java
+
 public class Subtask extends Task {
     private int epicId;
 

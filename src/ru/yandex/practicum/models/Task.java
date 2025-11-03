@@ -1,4 +1,4 @@
-package ru.yandex.practicum.models;// src/ru.yandex.practicum.models.Task.java
+package ru.yandex.practicum.models;
 import java.util.Objects;
 
 public class Task {
@@ -58,8 +58,4 @@ public class Task {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return String.format("ru.yandex.practicum.models.Task{id=%d, title='%s', status=%s}", id, title, status);
-    }
 }

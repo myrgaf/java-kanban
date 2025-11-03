@@ -1,4 +1,4 @@
-package ru.yandex.practicum.manager;// src/ru.yandex.practicum.manager.TaskManager.java
+package ru.yandex.practicum.manager;
 
 import ru.yandex.practicum.models.*;
 import java.util.*;
