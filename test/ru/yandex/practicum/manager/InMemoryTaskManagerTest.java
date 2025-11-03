@@ -2,21 +2,29 @@ package ru.yandex.practicum.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.exceptions.TaskIntersectionException;
 import ru.yandex.practicum.models.Epic;
 import ru.yandex.practicum.models.Status;
 import ru.yandex.practicum.models.Subtask;
 import ru.yandex.practicum.models.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
+class InMemoryTaskManagerTest extends AbstractTaskManagerTest<InMemoryTaskManager> {
     private TaskManager manager;
 
     @BeforeEach
     void setUp() {
         manager = new InMemoryTaskManager();
+    }
+
+    @Override
+    protected InMemoryTaskManager createManager() {
+        return new InMemoryTaskManager();
     }
 
     @Test
@@ -186,5 +194,110 @@ class InMemoryTaskManagerTest {
         assertTrue(manager.getAllSubtasks().isEmpty(), "Список подзадач должен быть пустым после удаления эпика");
 
         assertFalse(manager.getAllTasks().contains(createdEpic), "Эпик не должен быть в общем списке задач");
+    }
+
+    @Test
+    void testGetPrioritizedTasksSortedByStartTime() {
+        Task task1 = new Task("Задача 1", "Описание", Status.NEW);
+        task1.setStartTime(LocalDateTime.of(2025, 11, 3, 11, 0));
+        task1.setDuration(Duration.ofMinutes(30));
+        Task savedTask = manager.createTask(task1);
+
+        Epic epic = new Epic("Эпик", "Описание", Status.NEW);
+        Epic savedEpic = manager.createEpic(epic);
+
+        Subtask sub = new Subtask("Подзадача", "Описание", Status.NEW, savedEpic.getId());
+        sub.setStartTime(LocalDateTime.of(2025, 11, 3, 10, 0));
+        sub.setDuration(Duration.ofMinutes(45));
+        Subtask savedSub = manager.createSubtask(sub);
+
+        List<Task> prioritized = manager.getPrioritizedTasks();
+        assertEquals(2, prioritized.size());
+        assertEquals(savedSub, prioritized.get(0));
+        assertEquals(savedTask, prioritized.get(1));
+    }
+
+    @Test
+    void testTasksWithoutStartTimeExcludedFromPrioritizedList() {
+        Task taskWithTime = new Task("Со временем", "Описание", Status.NEW);
+        taskWithTime.setStartTime(LocalDateTime.of(2025, 11, 3, 10, 0));
+        taskWithTime.setDuration(Duration.ofMinutes(30));
+
+        Task taskWithoutTime = new Task("Без времени", "Описание", Status.NEW);
+
+        manager.createTask(taskWithTime);
+        manager.createTask(taskWithoutTime);
+
+        List<Task> prioritized = manager.getPrioritizedTasks();
+        assertEquals(1, prioritized.size());
+        assertEquals("Со временем", prioritized.getFirst().getTitle());
+    }
+
+    @Test
+    void testEpicTimesCalculatedFromSubtasks() {
+        Epic epic = new Epic("Эпик", "Описание", Status.NEW);
+        Epic savedEpic = manager.createEpic(epic);
+
+        Subtask sub1 = new Subtask("Подзадача 1", "Описание", Status.NEW, savedEpic.getId());
+        sub1.setStartTime(LocalDateTime.of(2025, 11, 3, 9, 0));
+        sub1.setDuration(Duration.ofMinutes(60));
+
+        Subtask sub2 = new Subtask("Подзадача 2", "Описание", Status.NEW, savedEpic.getId());
+        sub2.setStartTime(LocalDateTime.of(2025, 11, 3, 10, 30));
+        sub2.setDuration(Duration.ofMinutes(30));
+
+        manager.createSubtask(sub1);
+        manager.createSubtask(sub2);
+
+        Epic updatedEpic = manager.getEpic(savedEpic.getId());
+        assertEquals(LocalDateTime.of(2025, 11, 3, 9, 0), updatedEpic.getStartTime());
+        assertEquals(Duration.ofMinutes(90), updatedEpic.getDuration());
+        assertEquals(LocalDateTime.of(2025, 11, 3, 11, 0), updatedEpic.getEndTime());
+    }
+
+    @Test
+    void testEpicWithNoSubtasksHasNullStartTimeAndZeroDuration() {
+        Epic epic = new Epic("Пустой эпик", "Описание", Status.NEW);
+        Epic savedEpic = manager.createEpic(epic);
+
+        Epic loaded = manager.getEpic(savedEpic.getId());
+        assertNull(loaded.getStartTime());
+        assertEquals(Duration.ZERO, loaded.getDuration());
+        assertNull(loaded.getEndTime());
+    }
+
+    @Test
+    void testTaskIntersectionPreventsCreation() {
+        Task task1 = new Task("Задача 1", "Описание", Status.NEW);
+        task1.setStartTime(LocalDateTime.of(2025, 11, 3, 10, 0));
+        task1.setDuration(Duration.ofMinutes(60));
+        manager.createTask(task1);
+
+        Task task2 = new Task("Задача 2", "Описание", Status.NEW);
+        task2.setStartTime(LocalDateTime.of(2025, 11, 3, 10, 30));
+        task2.setDuration(Duration.ofMinutes(60));
+
+        assertThrows(TaskIntersectionException.class, () -> {
+            manager.createTask(task2);
+        });
+    }
+
+    @Test
+    void testSubtaskIntersectionWithTaskPreventsCreation() {
+        Task task = new Task("Задача", "Описание", Status.NEW);
+        task.setStartTime(LocalDateTime.of(2025, 11, 3, 10, 0));
+        task.setDuration(Duration.ofMinutes(60));
+        manager.createTask(task);
+
+        Epic epic = new Epic("Эпик", "Описание", Status.NEW);
+        Epic savedEpic = manager.createEpic(epic);
+
+        Subtask sub = new Subtask("Подзадача", "Описание", Status.NEW, savedEpic.getId());
+        sub.setStartTime(LocalDateTime.of(2025, 11, 3, 10, 30));
+        sub.setDuration(Duration.ofMinutes(60));
+
+        assertThrows(TaskIntersectionException.class, () -> {
+            manager.createSubtask(sub);
+        });
     }
 }
