@@ -1,9 +1,11 @@
 package ru.yandex.practicum.models;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
     private final List<Integer> subtaskIds;
+    private LocalDateTime endTime = null;
 
     public Epic(String title, String description, Status status) {
         super(title, description, status);
@@ -26,6 +28,14 @@ public class Epic extends Task {
 
     public void clearSubtasks() {
         subtaskIds.clear();
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
     @Override
