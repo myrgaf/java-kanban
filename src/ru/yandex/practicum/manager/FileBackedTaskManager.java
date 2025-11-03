@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private final File file;
+    private static final DateTimeFormatter TASK_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public FileBackedTaskManager(File file) {
         this.file = file;
@@ -42,7 +43,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private String taskToString(Task task) {
         String startTimeStr = "";
         if (task.getStartTime() != null) {
-            startTimeStr = task.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            startTimeStr = task.getStartTime().format(TASK_DATE_TIME_FORMATTER);
         }
         long durationMinutes = task.getDuration().toMinutes();
 
@@ -143,7 +144,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private static Task taskFromString(String value) {
         String[] parts = value.split(",", -1);
         if (parts.length < 8) {
-            throw new IllegalArgumentException("Неверный формат строки: " + value);
+            throw new IllegalArgumentException(String.format("Неверный формат строки: %s", value));
         }
 
         int id = Integer.parseInt(parts[0]);
@@ -157,7 +158,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         LocalDateTime startTime = null;
         if (!startTimeStr.isEmpty()) {
-            startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            startTime = LocalDateTime.parse(startTimeStr, TASK_DATE_TIME_FORMATTER);
         }
         Duration duration = Duration.ofMinutes(durationMinutes);
 
